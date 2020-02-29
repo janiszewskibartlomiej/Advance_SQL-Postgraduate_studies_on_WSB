@@ -1,1 +1,0 @@
-# Advance_SQL-Postgraduate_studies_on_WSB
