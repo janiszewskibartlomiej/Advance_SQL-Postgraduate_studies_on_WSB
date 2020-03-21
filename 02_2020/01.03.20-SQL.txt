@@ -1,0 +1,63 @@
+--1. ZnajdŸ pracowników, którzy wystêpuj¹ w tabeli wiêcej ni¿ jeden raz
+SELECT [EmployeeNationalIDAlternateKey], count (*)
+FROM DimEmployee
+GROUP BY [EmployeeNationalIDAlternateKey]
+HAVING COUNT(*) > 1;
+
+--2. Napisz select, który wyœwietli dane z tabeli DimEmployee dla tych pracowników (podpowiedŸ – u¿yj zapytania z p.1 jako subquery). 
+SELECT * FROM DimEmployee
+WHERE [EmployeeNationalIDAlternateKey] IN(
+SELECT [EmployeeNationalIDAlternateKey]
+FROM DimEmployee
+GROUP BY [EmployeeNationalIDAlternateKey]
+HAVING COUNT(*) > 1);
+--3. ZnajdŸ produkty, które wystêpuj¹ w tabeli wiêcej ni¿ jeden raz
+
+SELECT * from [dbo].[DimProduct]
+WHERE [ProductAlternateKey] IN(
+SELECT [ProductAlternateKey]
+FROM[dbo].[DimProduct]
+GROUP BY [ProductAlternateKey]
+HAVING COUNT(*) > 1);
+
+--4. Dlaczego ta tabela ma tylko kilka rekordów? -> BO TYLKO TYLE MA KATEGORII
+--DIM (TABELA WYMIARRU), Z REGULY MAJA TYSIACE LUB MNIEJ WATROSCI
+
+SELECT TOP(1000)
+[ProductCategoryKey],[ProductCategoryAlternateKey],[EnglishProductCategoryName],[FrenchProductCategoryName][SpanishProductCategoryName]
+FROM [dbo].[DimProductCategory];
+
+--5.TABELA FACTINTERENTSALE, 1. Z jakich kolumn g³ównie sk³ada siê ta tabela? 
+--ODP. Z KLUCZY (TABELA FAKTU), TABELE FAKTU MAJA MILIONY WARTOSCI
+--6. Napisz zapytanie, które poka¿e wartoœæ sprzeda¿y (FactInternetSales) pogrupowan¹ po kategoriach produktu (DimProductCategory)
+
+
+SELECT pc.EnglishProductCategoryName AS CategoryName,
+dd.[CalendarYear], 
+SUM (fs.[SalesAmount]) as TotalSales
+FROM [dbo].[FactInternetSales] fs, [dbo].[DimProduct] p,
+[dbo].[DimProductSubcategory] ps, [dbo].[DimProductCategory] pc, [dbo].[DimDate] dd
+WHERE 1=1
+AND fs.ProductKey = p.ProductKey
+AND p.ProductSubcategoryKey = ps.ProductSubcategoryKey
+AND ps.ProductCategoryKey=pc.ProductCategoryKey
+AND fs.OrderDateKey= dd.DateKey
+GROUP BY pc.EnglishProductCategoryName, dd.CalendarYear
+ORDER BY pc.EnglishProductCategoryName, dd.CalendarYear
+
+--Napisz zapytanie, które poka¿e wartoœæ sprzeda¿y (FactInternetSales) pogrupowan¹ po podkategorii (DimProductSubcategory) oraz terytorium (DimSalesTerritory)
+
+SELECT ps.EnglishProductSubcategoryName AS CategoryName,
+st.SalesTerritoryRegion, dd.[CalendarYear], 
+SUM (fs.[SalesAmount]) as TotalSales
+FROM [dbo].[FactInternetSales] fs, [dbo].[DimProduct] p,
+[dbo].[DimProductSubcategory] ps, [dbo].[DimDate] dd, [dbo].[DimSalesTerritory] st
+WHERE 1=1
+AND fs.ProductKey = p.ProductKey
+AND p.ProductSubcategoryKey = ps.ProductSubcategoryKey
+AND fs.OrderDateKey= dd.DateKey
+AND fs.SalesTerritoryKey = st.SalesTerritoryKey
+GROUP BY ps.EnglishProductSubcategoryName, st.SalesTerritoryRegion,dd.CalendarYear
+ORDER BY ps.EnglishProductSubcategoryName, dd.CalendarYear
+
+-- case Study

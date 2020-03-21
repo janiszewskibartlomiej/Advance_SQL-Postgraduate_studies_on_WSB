@@ -1,0 +1,4 @@
+CustomerID,FirstName,LastName,DOB,Country,City,PostalCode,Address
+C1234,Jan,Kowalski,1/1/1980,Poland,Gdansk,80-111,Grunwaldzka 100
+C1235,Katarzyna,Krol,1/2/1984,Poland,Gdansk,80-112,Dluga 10
+C1236,Adam,Nowak,1/3/1986,Poland,Gdansk,80-113,Polanki 3

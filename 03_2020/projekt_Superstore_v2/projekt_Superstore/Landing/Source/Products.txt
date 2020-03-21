@@ -1,0 +1,6 @@
+ProductID|Category|SubCategory|ProductName
+PL9876|Rowery|Szosowe|TREK FX 7.3 2018
+PL8765|Rowery|Gorskie|TREK Remedy 9.8 2018
+PL7654|Rowery|Elektryczne|Powerfly 5 WMN 2018
+PL7654|Rowery|Elektryczne|TREK Powerfly 5 WMN 2019
+PL45656|Rowery|Szosowe|Specialized Rocker 2018

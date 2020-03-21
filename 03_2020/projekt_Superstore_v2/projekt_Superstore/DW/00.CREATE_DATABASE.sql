@@ -1,0 +1,11 @@
+USE master
+GO
+IF DB_ID (N'SuperstoreDW') IS NOT NULL
+DROP DATABASE SuperstoreLanding;
+
+CREATE DATABASE SuperstoreDW
+ CONTAINMENT = NONE
+GO
+
+
+
